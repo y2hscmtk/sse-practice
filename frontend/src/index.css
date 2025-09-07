@@ -58,7 +58,14 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .row { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.75rem; }
 .badge { font-size: 0.75rem; color: #fff; background: var(--success); padding: 0.2rem 0.5rem; border-radius: 6px; }
 .token { font-family: var(--mono); font-size: 0.8rem; opacity: 0.85; }
+/* Truncate long tokens with ellipsis */
+.row .token { flex: 1; min-width: 0; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .result { margin-top: 0.75rem; background: #0b0f16; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border); }
 .status { margin-top: 0.5rem; color: var(--muted); }
 
 footer { margin-top: 1rem; color: var(--muted); font-size: 0.85rem; }
+
+/* table styles */
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--border); }
+.table thead th { color: var(--muted); font-weight: 600; }
