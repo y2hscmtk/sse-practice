@@ -1,5 +1,6 @@
 package com.choi76.sse.domain.member.entity;
 
+import com.choi76.sse.domain.member.dto.MemberInfoResponse;
 import com.choi76.sse.global.jwt.dto.Authority;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,4 +20,11 @@ public class Member {
     private String password;
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
+    public MemberInfoResponse toDto() {
+        return MemberInfoResponse.builder()
+                .loginId(loginId)
+                .authority(authority)
+                .build();
+    }
 }

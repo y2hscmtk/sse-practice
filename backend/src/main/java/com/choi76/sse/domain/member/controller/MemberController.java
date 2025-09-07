@@ -4,11 +4,14 @@ import com.choi76.sse.domain.member.dto.JoinDto;
 import com.choi76.sse.domain.member.dto.LoginRequestDto;
 import com.choi76.sse.domain.member.dto.MemberInfoResponse;
 import com.choi76.sse.domain.member.service.MemberService;
+import com.choi76.sse.global.jwt.dto.AuthUser;
 import com.choi76.sse.global.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/member")
@@ -36,7 +39,15 @@ public class MemberController {
      * 내 정보 조회
      */
     @GetMapping("/me")
-    public ApiResponse<MemberInfoResponse> getMyInfo() {
-        return ApiResponse.onSuccess(memberService.getMemberInfo());
+    public ApiResponse<MemberInfoResponse> getMyInfo(AuthUser authUser) {
+        return ApiResponse.onSuccess(memberService.getMemberInfo(authUser));
+    }
+
+    /**
+     * 사용자 목록 조회
+     */
+    @GetMapping("/list")
+    public ApiResponse<List<MemberInfoResponse>> getAllMembers() {
+        return ApiResponse.onSuccess(memberService.getAllMembers());
     }
 }

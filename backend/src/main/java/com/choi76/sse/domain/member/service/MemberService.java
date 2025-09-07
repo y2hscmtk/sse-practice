@@ -7,6 +7,7 @@ import com.choi76.sse.domain.member.entity.Member;
 import com.choi76.sse.domain.member.repository.MemberRepository;
 import com.choi76.sse.global.enums.statuscode.ErrorStatus;
 import com.choi76.sse.global.exception.GeneralException;
+import com.choi76.sse.global.jwt.dto.AuthUser;
 import com.choi76.sse.global.jwt.dto.Authority;
 import com.choi76.sse.global.jwt.util.JwtUtil;
 import com.choi76.sse.global.response.ApiResponse;
@@ -15,10 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -70,16 +72,18 @@ public class MemberService {
                 .body(ApiResponse.onSuccess("Bearer " + accessToken));
     }
 
-    public MemberInfoResponse getMemberInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String loginId = authentication.getName();
-
-        Member member = memberRepository.findMemberByLoginId(loginId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+    public MemberInfoResponse getMemberInfo(AuthUser authUser) {
+        Member member = authUser.getMember();
 
         return MemberInfoResponse.builder()
                 .loginId(member.getLoginId())
                 .authority(member.getAuthority())
                 .build();
+    }
+
+    public List<MemberInfoResponse> getAllMembers() {
+        return memberRepository.findAll().stream()
+                .map(Member::toDto)
+                .collect(Collectors.toList());
     }
 }

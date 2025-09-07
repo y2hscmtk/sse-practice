@@ -4,7 +4,7 @@ import com.choi76.sse.domain.member.entity.Member;
 import com.choi76.sse.domain.member.repository.MemberRepository;
 import com.choi76.sse.global.enums.statuscode.ErrorStatus;
 import com.choi76.sse.global.exception.GeneralException;
-import com.choi76.sse.global.jwt.dto.CustomUserDetails;
+import com.choi76.sse.global.jwt.dto.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         // UserDetails 객체 생성 -> JWT 검증시 사용
         Member member = memberRepository.findMemberByLoginId(loginId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
-        return new CustomUserDetails(member);
+        return new AuthUser(member);
     }
 }

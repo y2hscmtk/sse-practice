@@ -8,6 +8,7 @@ import com.choi76.sse.global.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity // 메서드 수준의 보안 활성화
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -56,8 +58,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         // login, root, join 경로의 요청에 대해서는 모두 허용
-                        .requestMatchers("api/member/login", "api/member/join").permitAll()
-                        .requestMatchers("/test").hasRole("ADMIN")
+                        .requestMatchers("/api/member/login", "/api/member/join").permitAll()
                         // 이외의 요청에 대해서는 인증된 사용자만 허용
                         .anyRequest().authenticated()
                 );

@@ -1,6 +1,8 @@
 package com.choi76.sse.global.jwt.dto;
 
 import com.choi76.sse.domain.member.entity.Member;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,11 +11,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUserDetails implements UserDetails {
+@Data
+@Getter
+public class AuthUser implements UserDetails {
 
     private final Member member;
 
-    public CustomUserDetails(Member member){
+    public AuthUser(Member member){
         this.member = member;
     }
 
@@ -33,4 +37,5 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
         return member.getLoginId();
     }
+
 }
