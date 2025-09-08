@@ -4,6 +4,7 @@ import com.choi76.sse.domain.member.dto.JoinDto;
 import com.choi76.sse.domain.member.dto.LoginRequestDto;
 import com.choi76.sse.domain.member.dto.MemberInfoResponse;
 import com.choi76.sse.domain.member.service.MemberService;
+import com.choi76.sse.domain.member.dto.UpdateAuthorityRequest;
 import com.choi76.sse.global.jwt.dto.AuthUser;
 import com.choi76.sse.global.response.ApiResponse;
 import jakarta.validation.Valid;
@@ -49,5 +50,15 @@ public class MemberController {
     @GetMapping("/list")
     public ApiResponse<List<MemberInfoResponse>> getAllMembers() {
         return ApiResponse.onSuccess(memberService.getAllMembers());
+    }
+
+    /**
+     * 사용자 권한 수정
+     */
+    @PatchMapping("/{memberId}/authority")
+    public ApiResponse<MemberInfoResponse> updateAuthority(
+            @PathVariable Long memberId,
+            @RequestBody UpdateAuthorityRequest request) {
+        return ApiResponse.onSuccess(memberService.updateAuthority(memberId, request));
     }
 }

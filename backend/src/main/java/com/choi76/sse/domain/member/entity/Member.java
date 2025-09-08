@@ -21,8 +21,13 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
+    public void updateAuthority(Authority authority) {
+        this.authority = authority;
+    }
+
     public MemberInfoResponse toDto() {
         return MemberInfoResponse.builder()
+                .id(id)
                 .loginId(loginId)
                 .authority(authority)
                 .build();

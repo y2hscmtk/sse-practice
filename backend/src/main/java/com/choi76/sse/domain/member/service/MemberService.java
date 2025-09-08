@@ -3,6 +3,7 @@ package com.choi76.sse.domain.member.service;
 import com.choi76.sse.domain.member.dto.JoinDto;
 import com.choi76.sse.domain.member.dto.LoginRequestDto;
 import com.choi76.sse.domain.member.dto.MemberInfoResponse;
+import com.choi76.sse.domain.member.dto.UpdateAuthorityRequest;
 import com.choi76.sse.domain.member.entity.Member;
 import com.choi76.sse.domain.member.repository.MemberRepository;
 import com.choi76.sse.global.enums.statuscode.ErrorStatus;
@@ -85,5 +86,13 @@ public class MemberService {
         return memberRepository.findAll().stream()
                 .map(Member::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public MemberInfoResponse updateAuthority(Long memberId, UpdateAuthorityRequest request) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+        member.updateAuthority(request.getAuthority());
+        return member.toDto();
     }
 }
